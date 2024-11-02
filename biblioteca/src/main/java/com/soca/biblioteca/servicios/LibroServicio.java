@@ -29,12 +29,12 @@ public class LibroServicio {
 	private EditorialRepositorio editorialRepositorio;
 
 	@Transactional
-	public void crearLibro(String titulo, Integer ejemplares, UUID idAutor, UUID idEditorial) throws MiException {
+	public void crearLibro(String titulo, Integer ejemplares, String idAutor, String idEditorial) throws MiException {
 		validar(titulo, ejemplares, idAutor, idEditorial);
 
 		Libro libro = new Libro();
-		Autor autor = autorRepositorio.findById(idAutor).get();
-		Editorial editorial = editorialRepositorio.findById(idEditorial).get();
+		Autor autor = autorRepositorio.findById(UUID.fromString(idAutor)).get();
+		Editorial editorial = editorialRepositorio.findById(UUID.fromString(idEditorial)).get();
 
 		libro.setTitulo(titulo);
 		libro.setEjemplares(ejemplares);
@@ -55,13 +55,13 @@ public class LibroServicio {
 	}
 
 	@Transactional
-	public void modificarLibro(String titulo, Integer ejemplares, UUID idAutor, UUID idEditorial, Long id)
+	public void modificarLibro(String titulo, Integer ejemplares, String idAutor, String idEditorial, Long id)
 			throws MiException {
 		validar(titulo, ejemplares, idAutor, idEditorial);
 
 		Optional<Libro> respuesta = libroRepositorio.findById(id);
-		Optional<Editorial> repuestaEditorial = editorialRepositorio.findById(idEditorial);
-		Optional<Autor> respuestaAutor = autorRepositorio.findById(idAutor);
+		Optional<Editorial> repuestaEditorial = editorialRepositorio.findById(UUID.fromString(idEditorial));
+		Optional<Autor> respuestaAutor = autorRepositorio.findById(UUID.fromString(idAutor));
 
 		if (respuesta.isPresent() && repuestaEditorial.isPresent() && respuestaAutor.isPresent()) {
 			Libro libro = respuesta.get();
@@ -75,17 +75,17 @@ public class LibroServicio {
 		}
 	}
 
-	private void validar(String titulo, Integer ejemplares, UUID idAutor, UUID idEditorial) throws MiException {
+	private void validar(String titulo, Integer ejemplares, String idAutor, String idEditorial) throws MiException {
 		if (titulo.isEmpty() || titulo == null) {
 			throw new MiException("El título ingresado no puede ser nulo o vacío.");
 		}
 		if (ejemplares == null) {
 			throw new MiException("La cantidad de ejemplares ingresado no puede ser nulo.");
 		}
-		if (idAutor == null) {
+		if (idAutor.isEmpty() || idAutor == null) {
 			throw new MiException("El id de autor ingresado no puede ser nulo.");
 		}
-		if (idEditorial == null) {
+		if (idEditorial.isEmpty() || idEditorial == null) {
 			throw new MiException("El id de editorial ingresado no puede ser nulo.");
 		}
 	}
