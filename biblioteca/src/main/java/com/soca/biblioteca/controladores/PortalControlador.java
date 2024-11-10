@@ -12,4 +12,14 @@ public class PortalControlador {
 	public String index() {
 		return "index.html";
 	}
+	
+	@GetMapping("/registrar")
+	public String registrar() {
+		return "registro.html";
+	}
+	
+	@GetMapping("/login")
+	public String log() {
+		return "login.html";
+	}
 }
