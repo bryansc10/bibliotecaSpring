@@ -9,6 +9,6 @@ import com.soca.biblioteca.entidades.Usuario;
 
 @Repository
 public interface UsuarioRepositorio extends JpaRepository<Usuario, String> {
-	@Query("SELECT u FROM Usuario WHERE u.email = :email")
+	@Query("SELECT u FROM Usuario u WHERE u.email = :email")
 	public Usuario buscarPorEmail(@Param("email") String email);
 }
