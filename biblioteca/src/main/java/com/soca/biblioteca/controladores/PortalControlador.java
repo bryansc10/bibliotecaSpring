@@ -9,8 +9,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.soca.biblioteca.entidades.Usuario;
 import com.soca.biblioteca.excepciones.MiException;
 import com.soca.biblioteca.servicios.UsuarioServicio;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/")
@@ -38,7 +41,11 @@ public class PortalControlador {
 	// Inicio
 	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
 	@GetMapping("/inicio")
-	public String inicio() {
+	public String inicio(HttpSession session) {
+		Usuario userLoggin = (Usuario) session.getAttribute("usuariosession");
+		if(userLoggin.getRol().toString().equals("ADMIN")) {
+			return "redirect:/admin/dashboard";
+		}
 		return "inicio.html";
 	}
 	
