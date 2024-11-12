@@ -26,6 +26,7 @@ public class UsuarioServicio implements UserDetailsService {
 	
 	@Transactional
 	public void registrar(String nombre, String email, String password, String passwordRepeat) throws MiException {
+		
 		validar(nombre, email, password, passwordRepeat);
 		Usuario usuario = new Usuario();
 		
@@ -39,6 +40,7 @@ public class UsuarioServicio implements UserDetailsService {
 	
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		
 		Usuario usuario = usuarioRepositorio.buscarPorEmail(email);
 		
 		if (usuario!=null) {
@@ -52,6 +54,7 @@ public class UsuarioServicio implements UserDetailsService {
 	}
 	
 	private void validar(String nombre, String email, String password, String passwordRepeat) throws MiException {
+		
 		if (nombre.isEmpty() || nombre == null) {
             throw new MiException("El nombre no puede ser nulo o estar vacío");
         }
